@@ -1,9 +1,9 @@
 --ЗАДАНИЕ 2
 
 --название и продолжительность самого длительного трека;
+
 SELECT title, duration FROM songs
-ORDER BY duration DESC
-LIMIT 1;
+WHERE  duration = (SELECT max(duration) FROM songs);
 
 --название треков, продолжительность которых не менее 3,5 минуты;
 SELECT title FROM songs
@@ -26,7 +26,7 @@ SELECT title FROM songs
    
 -- количество исполнителей в каждом жанре;
 
-SELECT name, count(genres_artists.artist_id)
+SELECT genres.name, count(genres_artists.artist_id)
   FROM genres 
   JOIN genres_artists ON genres.id = genres_artists.genre_id 
   GROUP BY genres.name;
@@ -42,22 +42,21 @@ SELECT albums.title, albums.release_year, count(songs.album_id)
 SELECT albums.title, AVG(songs.duration)
   FROM albums
   JOIN songs ON albums.id = songs.album_id
-  GROUP BY albums.title;
-  
- --все исполнители, которые не выпустили альбомы в 2020 году;
-SELECT artists.name, albums.release_year
-  FROM artists
-  JOIN artists_albums ON artists.id = artists_albums.artist_id
-  JOIN albums ON artists_albums.album_id = albums.id
-  WHERE albums.release_year != 2020;
+  GROUP BY albums.title
+  ORDER BY  AVG(songs.duration);
  
+ --все исполнители, которые не выпустили альбомы в 2020 году;
+SELECT name FROM artists a 
+  JOIN artists_albums a2 on a.id = a2.artist_id
+  JOIN albums a3 on a2.album_id = a3.id
+  WHERE name NOT IN (SELECT name FROM artists_albums WHERE release_year >= 2020 AND release_year < 2021);
+
  --названия сборников, в которых присутствует конкретный исполнитель (выберите сами);
-SELECT collection.title FROM collection
+SELECT DISTINCT collection.title FROM collection
   JOIN collection_songs ON collection.id = collection_songs.collection_id
   JOIN songs ON collection_songs.song_id = songs.id
   JOIN albums ON songs.album_id = albums.id
   JOIN artists_albums ON albums.id = artists_albums.album_id
   JOIN artists ON artists.id = artists_albums.artist_id
   WHERE artists.name = 'Rihanna'
-  GROUP BY collection.title
-  ORDER BY collection.title;
+

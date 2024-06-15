@@ -36,7 +36,7 @@ INSERT INTO genres_artists VALUES(1,2);
 INSERT INTO genres_artists VALUES(2,3);
 INSERT INTO genres_artists VALUES(3,4);
 INSERT INTO genres_artists VALUES(3,5);
-
+INSERT INTO genres_artists VALUES(2,6);
 
 INSERT INTO artists_albums VALUES(1, 1);
 INSERT INTO artists_albums VALUES(6, 1);
@@ -66,5 +66,3 @@ INSERT INTO collection_songs VALUES(3, 8);
 INSERT INTO collection_songs VALUES(3, 10);
 INSERT INTO collection_songs VALUES(4, 5);
 INSERT INTO collection_songs VALUES(4, 11);
-
-
